@@ -23,6 +23,9 @@ Approach :
 
 https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
 
+TC : O(n) : traversing all nodes
+SC : O(n)
+
 */
 
 class Solution
