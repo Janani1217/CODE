@@ -95,7 +95,7 @@ int getLengthOfList(Node *head, int n)
 /*first we should think that the recr function will reversse
 the given list from the second index automatically and the output
 will be : 3 1 6 4 .
-Now we have to just take care of the 1st node = 2, here this has
+Now we have to just take care of the 1st node = 3, here this has
 to be after 4 in the output.
 So anyhow 4 is pointed by head (head->next = 4).
 So now head->next->next = 5(head now).
@@ -113,6 +113,26 @@ Node *getReverse(Node *head)
     head->next->next = head;
     head->next = NULL;
     return currRes;
+}
+
+// iterative reversal of linked list approach :
+Node *reverse(Node *head)
+{
+    if (head == NULL)
+        return head;
+
+    Node *prev = NULL;
+    Node *curr = head;
+    Node *nx = NULL;
+
+    while (curr != NULL)
+    {
+        nx = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nx;
+    }
+    return prev;
 }
 
 int main()

@@ -93,9 +93,88 @@ int eliminate(int n)
     return 2 * (n / 2 - eliminate(n / 2) + 1);
 }
 
+/*
+
+iterative approach :
+
+1.  take bool var to track direction.
+    bool left = true; since init it starts from left to right.
+
+2.  take var denoting head/first ele in arr for current traversal , init, head = 1
+
+    [1,2,3,4,5,6,7,8] = head = 1
+    [2,4,6,8] = head = 2
+    [4,8] = head = 4
+    ..
+
+3.  take var denoting diff between every ele present in the curr array, init diff = 1
+
+    [1,2,3,4,5,6,7,8] = diff btw each ele = 1
+    [2,4,6,8] = diff btw each ele = 2
+    [4,8] = diff btw each ele = 4
+    ..
+
+
+4.  take var denoting the size of remaining arr , remaining = n ,init , but every time red to n/2
+
+    [1,2,3,4,5,6,7,8] = remaining = 8
+    [2,4,6,8] = remaining = 4
+    [4,8] = remaining = 2
+    ..
+
+5.  loop until remaining > 1
+
+    to shift head , there will be 2 conditions : either left = true.
+    Or , size of rem arr is a odd number , then also the head will be shifted, because the head
+    will be cut.
+
+    eg :  2 4 6  ; left  = false
+    travel from right 6 -> 2
+    before that head currently at 2.
+    After the traversal , 6 cut , 2 cut.
+    Now head must be 4 here.
+
+    So in this case , even if left is not true , but size is odd , so starting from right side ,
+    will cut the head and head needs to be updated in this case.
+
+    *********
+    So to check if its a odd number -> size & 1 = 1 in odd case.
+
+    1.  if(left==true || remaining & 1)
+        {
+            -> shift the head
+            head = head + diff;
+        }
+
+    2.  calc diff => diff = diff * 2 ;
+    3.  remaining = remaining / 2;
+    4.  negate the direction : left = !left ;
+*/
+
+int solveIterative(int n)
+{
+    int head = 1;
+    int diff = 1;
+    int size = n;
+    bool left = true;
+
+    while (size > 1)
+    {
+        if (left == true || size & 1)
+        {
+            head = head + diff;
+        }
+
+        size = size / 2;
+        diff = diff * 2;
+        left = !left;
+    }
+    return head;
+}
+
 int main()
 {
-    int n = 19;
-    int result = eliminate(n);
+    int n = 5;
+    int result = solveIterative(n);
     cout << result << "\n";
 }

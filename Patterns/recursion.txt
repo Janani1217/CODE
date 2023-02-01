@@ -1,0 +1,62 @@
+Recursion patterned questions:
+
+............................................................................................................
+
+1.  Joseph - circular game : cut down k'th node and return the remaining node.
+
+    * it forms repeating pattern after some time which is n , so use of % 
+    * so recr formula : f(n,k) = ( f(n-1 ,k) + k ) % n
+    * it starts with 0th node , so will give correct answer.
+
+............................................................................................................
+
+2.  Elimination game : cut alternate number and change direction after every iteration.
+
+    * solve it without recursion using while loop
+    * change direction using bool var
+    * check the condition where head needs to be updated.
+    * size = n/2 in every loop
+    * return head while size = 1.
+
+............................................................................................................
+
+3.  Kth symbol in grammar : 0 is replaced with 01 and 1 with 10. Find which is present in kth index
+
+    * using trees : draw the pic in rough note
+    * find the parent of node present in kth index : using recr call
+    * we will have 4 options : if k is odd / even
+    * recr call only for parent = solve(n, k/2 + k%2) 
+    * parent index of a node (kth index) -> (k/2 + k%2)
+    * from tree we can see the options : 
+        parent=0 & k=odd
+        parent=0 & k=even
+        parent=1 & k=odd
+        parent=1 & k=even
+
+............................................................................................................
+
+3.  Kth reversal in linked list
+
+    * first check if k nodes exists of not , looping in list
+    * if not , return head simply.
+    * second, start while loop for reversal process , and increment count : check till kth
+    * third , after loop ends , check if forward pntr != NUll
+    * fourth , then move ahead by recr call.
+        head->next = getKReversal( forward , k);
+    * return prev ;
+
+............................................................................................................
+
+4.  Include and Exclude patterns : based on condition , take 2 ans - include , exclude and return
+    min or max from the PS.
+
+    * min_swaps_to_make_sequence_strictly_increasing
+    *
+
+
+............................................................................................................
+
+5.  Options in PS : based on various options available find out the answers , and among those ans
+    return min / max according to PS
+
+    * max_height_stacking_cubes
