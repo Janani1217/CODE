@@ -85,6 +85,7 @@ int main()
 {
     int n = 7, k = 2;
     int ans = circularGame(n, k);
+    /************/
     ans = ans + 1;
     // since the count of frnds starts from 1 and not 0.
     // but % operator will give the op starting from 0, so add 1 in op.

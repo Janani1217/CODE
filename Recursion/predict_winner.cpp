@@ -87,7 +87,7 @@ int predictWinnerUtils(vector<int> &nums, int i, int j)
             remaing = [4,7,6] for p1
 
             op2 = j-1 on 7 -> selects 7
-            remaing = [5,2,4] for p2
+            remaing = [5,2,4] for p1
 
     now the next call is for p2.
 
@@ -122,7 +122,7 @@ bool predictWinner(vector<int> &nums, int n)
     // get the p1 score first
     int p1_score = predictWinnerUtils(nums, 0, n - 1);
 
-    // calc the total score for both
+    // calc the total score of arr
     int total_score = 0;
 
     for (int i = 0; i < n; i++)
