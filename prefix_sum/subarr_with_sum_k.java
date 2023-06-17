@@ -1,5 +1,8 @@
 package prefix_sum;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /*
  * Given an array of integers nums and an integer k, return the total number of 
  * subarrays whose sum equals to k.

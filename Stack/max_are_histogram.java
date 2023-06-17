@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
+
 /*  Largest Rectangle in Histogram
  * 
  *  Given an array of integers heights representing the histogram's bar height where the width 

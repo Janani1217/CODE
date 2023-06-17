@@ -21,7 +21,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Solution {
+public class next_smallest {
     static ArrayList<Integer> nextSmallerElement(ArrayList<Integer> arr, int n) {
         // Write your code here.
 
