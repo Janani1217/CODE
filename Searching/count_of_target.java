@@ -1,4 +1,3 @@
-package Searching;
 
 public class count_of_target {
     public class Solution {

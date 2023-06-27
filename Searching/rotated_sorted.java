@@ -1,4 +1,3 @@
-package Searching;
 
 public class rotated_sorted {
     public int search(int[] nums, int target) {

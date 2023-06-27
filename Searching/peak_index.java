@@ -41,8 +41,6 @@ Approach :
 
  */
 
-package Searching;
-
 public class peak_index {
     class Solution {
         public int peakIndexInMountainArray(int[] arr) {

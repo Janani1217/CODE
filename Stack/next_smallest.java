@@ -19,7 +19,6 @@
  */
 
 import java.util.*;
-import java.io.*;
 
 public class next_smallest {
     static ArrayList<Integer> nextSmallerElement(ArrayList<Integer> arr, int n) {
