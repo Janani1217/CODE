@@ -1,6 +1,11 @@
 /*
+ QUICK_SORT !
+
 Similar to merge sort , quick sort is also conquer and divide approach based.
-It will have a pivot element , around which the arr will be divided and then conquered after sorting.
+It will have a pivot element , around which the arr will be divided and then
+conquered after sorting.
+
+.........................................................................................
 
 There are diff ways to select the pivot element:
 1. pick 1st ele as pivot
@@ -8,10 +13,16 @@ There are diff ways to select the pivot element:
 3. pick median
 4. pick random ele as pivot
 
+.........................................................................................
+
 The key process in quick sort is partion() process.
+
 It will recieve an arr and an ele of that arr as the pivot.
+
 It has to put the pivot ele in its correct position in the arr as in sorted arr.
+
 Then place all the smaller ele before pivot and greater ele after the pivot to form sorted arr.
+
 This all has to be done in linear time = O(n).
  */
 

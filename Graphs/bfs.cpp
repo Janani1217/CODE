@@ -89,6 +89,7 @@ SC : O(n + e)
 
 */
 
+/*
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -164,4 +165,96 @@ vector<int> BFS(int vertex, vector<pair<int, int>> edges)
         }
     }
     return ans;
+}
+
+*/
+CODE IN JAVA
+
+    class Node
+{
+    int val;
+    Node next;
+
+public
+    Node(int val)
+    {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution
+{
+
+public
+    void bfs(int src, ArrayList<Integer> ans, Map<Integer, List<Integer>> adjList, Map<Integer, Boolean> vis)
+    {
+        vis.put(src, true);
+        LinkedList<Node> q = new LinkedList<>();
+        q.add(new Node(src));
+
+        while (!q.isEmpty())
+        {
+            Node first = q.poll();
+            int ele = first.val;
+            ans.add(ele);
+
+            List<Integer> ll = adjList.get(ele);
+            for (int i = 0; i < ll.size(); i++)
+            {
+                if (vis.get(ll.get(i)) == false)
+                {
+                    vis.put(ll.get(i), true);
+                    q.add(new Node(ll.get(i)));
+                }
+            }
+        }
+    }
+
+public
+    void prepareAdjList(int m, ArrayList<ArrayList<Integer>> edges, Map<Integer, List<Integer>> adjList)
+    {
+        for (int i = 0; i < m; i++)
+        {
+            ArrayList<Integer> arr = edges.get(i);
+            adjList.put(i, arr);
+        }
+    }
+
+    // Function to return Breadth First Traversal of given graph.
+public
+    ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        int m = adj.size();
+        int n = V;
+
+        // prep adj list
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+        prepareAdjList(m, adj, adjList);
+
+        // print adj list
+        /*
+        for(Map.Entry<Integer, List<Integer>> mp : adjList.entrySet()) {
+            System.out.println(mp.getKey());
+            List<Integer> neigh = mp.getValue();
+            for(Integer i : neigh) {
+                System.out.println(i);
+            }
+            System.out.println("next");
+        }
+        */
+
+        Map<Integer, Boolean> vis = new HashMap<>();
+        for (int i = 0; i < n; i++)
+        {
+            vis.put(i, false);
+        }
+
+        // ans storage
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        bfs(0, ans, adjList, vis);
+
+        return ans;
+    }
 }

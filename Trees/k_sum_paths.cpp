@@ -17,6 +17,52 @@ https://leetcode.com/problems/path-sum-iii/
 
 class Solution
 {
+    int count = 0;
+public
+    void solve(TreeNode root, int sum, ArrayList<Long> path)
+    {
+        if (root == null)
+            return;
+
+        int value = root.val;
+        path.add((long)value);
+
+        solve(root.left, sum, path);
+        solve(root.right, sum, path);
+
+        // both are done so cal the path
+        int size = path.size();
+        long curr = 0;
+
+        // System.out.println(size);
+
+        for (int i = size - 1; i >= 0; i--)
+        {
+            curr += path.get(i);
+
+            if (curr == sum)
+            {
+                // System.out.println("hi");
+                count++;
+            }
+        }
+
+        // backtrack : pop back
+        path.remove(path.size() - 1);
+    }
+
+public
+    int pathSum(TreeNode root, int targetSum)
+    {
+        ArrayList<Long> path = new ArrayList<>();
+        solve(root, targetSum, path);
+        return count;
+    }
+}
+
+/*
+class Solution
+{
 public:
     void solve(TreeNode *root, vector<long> path, int &count, int targetSum)
     {
@@ -49,10 +95,12 @@ public:
     {
 
         /***** Signed integer issue could happen , so put long */
-        vector<long> path;
-        int count = 0;
+/*       vector<long> path;
+       int count = 0;
 
-        solve(root, path, count, targetSum);
-        return count;
-    }
+       solve(root, path, count, targetSum);
+       return count;
+   }
 };
+
+*/

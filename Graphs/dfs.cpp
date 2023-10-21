@@ -17,8 +17,7 @@ Depth first search : PRINT TILL DEPTH AND THEN COME BACK AND PRINT REMAINING
 5.  DS :
 
     1.  map - vis : to keep track of already vis nodes
-    2.  queue - to traverse
-    3.  map <int , list> - adj list
+    2.  map <int , list> - adj list
 
 ..................................................................................................
 
@@ -120,3 +119,47 @@ vector<vector<int>> depthFirstSearch(int V, int E, vector<vector<int>> &edges)
     }
     return ans;
 }
+
+/* Code in java
+
+class Solution {
+    public void dfs(Map<Integer, List<Integer>> adjList, Map<Integer, Boolean> vis, int src, ArrayList<Integer> res)
+    {
+        vis.put(src, true);
+        res.add(src);
+
+        List<Integer> arr = adjList.get(src);
+        for(int i=0; i<arr.size(); i++) {
+            int curr = arr.get(i);
+            if(vis.get(curr) == false){
+                dfs(adjList, vis, curr, res);
+            }
+        }
+    }
+    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        int n = V;
+        int m = adj.size();
+
+        //prep the adj list
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+
+        for(int i=0; i<m; i++) {
+            ArrayList<Integer> arr = adj.get(i);
+            adjList.put(i, arr);
+        }
+
+        //pre the vis ds
+        Map<Integer, Boolean> vis = new HashMap<>();
+
+        for(int i=0; i<n; i++) {
+            vis.put(i, false);
+        }
+
+        //store the res
+        ArrayList<Integer> res = new ArrayList<>();
+        dfs(adjList, vis, 0, res);
+
+        return res;
+    }
+}
+*/

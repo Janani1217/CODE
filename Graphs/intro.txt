@@ -1,0 +1,10 @@
+Degree : 
+    1. undirected graph : all edges connected to a node is its Degree
+    2. direected graph : indegree : edges coming towared the node   
+                        outdegree : edges outgoing from the node 
+
+path : sequence of node for traversal , for which every node is visited only once.
+
+implementation of graphs : 
+    1. adj matrix : 2 D array
+    2. adj list : map <list>

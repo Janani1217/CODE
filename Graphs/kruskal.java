@@ -9,6 +9,7 @@ weighted
 Find and print total weight of MST using Kruskal algo.
 */
 
+/*
 #include <bits/stdc++.h>
 #include <algorithm>
 void makeSet(vector<int> &parent, vector<int> &rank, int n)
@@ -20,19 +21,10 @@ void makeSet(vector<int> &parent, vector<int> &rank, int n)
     }
 }
 
-// first operation : find the actual parent
 int findParent(vector<int> &parent, int node)
 {
-    // root node will have its par as the root node itself
-    // and it will be the terminating point
     if (parent[node] == node)
         return node;
-
-    /* now move to the upper top in the graph to reach the root
-      node to get actual parent : so recr call back to its parent
-      to do path compression , we have to know the par of current node to be
-      ans ret from the recr call made.
-    */
     parent[node] = findParent(parent, parent[node]);
     return parent[node];
 }
@@ -92,4 +84,69 @@ int kruskalMST(int n, int m, vector<vector<int>> &graph)
         }
     }
     return min_wg;
+}
+
+
+*/
+
+//{ Driver Code Starts
+
+import java.util.*;
+
+class Solution {
+    static int[] parent, rank;
+
+    static void makeSet(int v) {
+        parent[v] = v;
+        rank[v] = 0;
+    }
+
+    static int findSet(int v) {
+        if (v == parent[v])
+            return v;
+
+        return parent[v] = findSet(parent[v]);
+    }
+
+    static void unionSets(int a, int b) {
+        a = findSet(a);
+        b = findSet(b);
+
+        if (a != b) {
+            if (rank[a] < rank[b]) {
+                int temp = a;
+                a = b;
+                b = temp;
+            }
+            parent[b] = a;
+            if (rank[a] == rank[b])
+                rank[a]++;
+        }
+    }
+
+    static int spanningTree(int V, int E, int edges[][]) {
+        parent = new int[V];
+        rank = new int[V];
+
+        Arrays.sort(edges, (a, b) -> a[2] - b[2]);
+
+        for (int i = 0; i < V; i++) {
+            makeSet(i);
+        }
+
+        int cost = 0;
+
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int w = edge[2];
+
+            if (findSet(u) != findSet(v)) {
+                cost += w;
+                unionSets(u, v);
+            }
+        }
+
+        return cost;
+    }
 }

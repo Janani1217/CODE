@@ -1,3 +1,4 @@
+package Maths;
 /*
 Search in a 2D matrix : 
 

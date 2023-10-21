@@ -57,6 +57,97 @@ SC: O(n+m)
 
 */
 
+class Node
+{
+    int val;
+    Node next;
+public
+    Node(int val)
+    {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+class Solution
+{
+
+public
+    boolean bfs(Map<Integer, List<Integer>> adjList, Map<Integer, Boolean> vis, Map<Integer, Integer> parent, int src)
+    {
+        vis.put(src, true);
+        Queue<Node> q = new LinkedList<>();
+        q.add(new Node(src));
+
+        while (!q.isEmpty())
+        {
+            Node front = q.poll();
+            int curr = front.val;
+            List<Integer> ll = adjList.get(curr);
+
+            for (int i = 0; i < ll.size(); i++)
+            {
+                int ele = ll.get(i);
+
+                if (vis.get(ele) == true && parent.get(curr) != ele)
+                    return true;
+                else
+                {
+                    if (vis.get(ele) == false)
+                    {
+                        vis.put(ele, true);
+                        q.add(new Node(ele));
+                        parent.put(ele, curr);
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+public
+    boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        int n = V;
+        int m = adj.size();
+
+        // prep adj list
+        Map<Integer, List<Integer>> adjList = new HashMap<>();
+        for (int i = 0; i < m; i++)
+        {
+            ArrayList<Integer> arr = adj.get(i);
+            adjList.put(i, arr);
+        }
+
+        // create vis ds
+        Map<Integer, Boolean> vis = new HashMap<>();
+        for (int i = 0; i < n; i++)
+        {
+            vis.put(i, false);
+        }
+
+        // create ds for parent
+        Map<Integer, Integer> parent = new HashMap<>();
+        for (int i = 0; i < n; i++)
+        {
+            parent.put(i, -1);
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            if (vis.get(i) == false)
+            {
+                if (bfs(adjList, vis, parent, i))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+/*
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -137,3 +228,5 @@ string cycleDetection(vector<vector<int>> &edges, int n, int m)
     }
     return "No";
 }
+
+*/

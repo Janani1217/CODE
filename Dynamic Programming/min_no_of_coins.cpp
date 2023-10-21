@@ -133,18 +133,19 @@ int solveTab(int arr[], int n, vector<int> &dp, int target)
     // base case
     dp[0] = 0;
 
-    // looping
-    int mini = INT_MAX;
-    for (int i = 1; i < n; i++)
+    for (int t = 1; t <= target; t++)
     {
-        int ans = dp[target - arr[i]];
-        if (ans != INT_MIN)
+        int mini = INT_MAX;
+        for (int i = 1; i < n; i++)
         {
-            mini = min(mini, ans + 1);
+            if (dp[t - arr[i]] > 0 && dp[t - arr[i]] != -1)
+            {
+                mini = min(mini, dp[t - arr[i]]);
+            }
         }
+        dp[t] = (mini == INT_MAX) ? -1 : mini;
     }
-    dp[target] = mini;
-    return mini;
+    return dp[t];
 }
 
 int main()
@@ -159,7 +160,7 @@ int main()
     vector<int> dp(n, -1);
     int ansMem = solveMem(arr, n, dp, target);
 
-    vector<int> dpTab(target + 1, INT_MAX);
+    vector<int> dpTab(target + 1, -1);
     int ansTab = solveTab(arr, n, dpTab, target);
 
     cout << ansTab << endl;

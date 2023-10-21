@@ -15,7 +15,45 @@ https://practice.geeksforgeeks.org/problems/sum-tree/1
 .................................................................................................
 
 */
+class Solution
+{
+    boolean solve(Node root)
+    {
+        if (root == null || (root.left == null && root.right == null))
+            return true;
 
+        int ls = 0;
+        int rs = 0;
+
+        // non leaf node checks
+        if (solve(root.left) == true && solve(root.right) == true)
+        {
+            if (root.left == null)
+                ls = 0;
+            else if (root.left.left == null && root.left.right == null)
+                ls = root.left.data;
+            else
+                ls = 2 * (root.left.data); // assuming its a sum tree
+
+            if (root.right == null)
+                rs = 0;
+            else if (root.right.left == null && root.right.right == null)
+                rs = root.right.data;
+            else
+                rs = 2 * (root.right.data);
+
+            if (root.data == ls + rs)
+                return true;
+        }
+        return false;
+    }
+    boolean isSumTree(Node root)
+    {
+        // Your code here
+        return solve(root);
+    }
+}
+/*
 class Solution
 {
 public:
@@ -59,3 +97,4 @@ public:
         return ans.first;
     }
 };
+*/

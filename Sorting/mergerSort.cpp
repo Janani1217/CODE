@@ -1,13 +1,17 @@
 /*
 This sort is based on divide and conquer approach.
 Initially teh array is divided into half and then sorted and then merged.
-Its a recursive algo which divides the arr into halves until it cannot be further divided and invoke merge sorting in that half.
+
+Its a recursive algo which divides the arr into halves until it cannot be further
+divided and invoke merge sorting in that half.
+
 So if the arr will have 0 or 1 element it will stop (untill the atomic values are achieved).
+
 Finally when both the halves are sorted, the merge operation is applied on it.
 Merger operation is taking two sorted smaller halves of array and combining it into one.
-*/
 
-/*
+.........................................................................................
+
 Algorithm :
 1. start
 2. declare the array's left , right , mid positions
@@ -21,20 +25,30 @@ Algorithm :
 
 4. stop
 
-....
+.........................................................................................
 
 Algo explain :
 1. divide() : it will recursively divide the arr into halves untill atomic
+
 2. it will continue on both the halves : left->mid & mid+1->right
+
 3. now will call the sortAndConquer() to sort the arr and merge into single arr
+
 4. take a temp arr to store the sorted arr and later transfer to original arr
+
 5. need to traverse on both halves so declare i and j accordingly
+
 6. if the array has even elements , then only first while loop will be traversed
+
 7. whichever is min ele will be pushed into temp arr.
+
 8. now if the original arr is odd, then 2nd or 3rd while loop will execute till their ele are inserted into temp
+
 9. now temp will be having all the ele sorted whichever is present from left to right indexes
+
 10. final loop will copy those sorted elements back to the original array
 
+.........................................................................................
 */
 
 #include <iostream>
