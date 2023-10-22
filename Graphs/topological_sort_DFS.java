@@ -75,135 +75,52 @@ SC : O(N)
 
 */
 
+
+
 class Solution {
-     static void dfsTopo(Map<Integer, List<Integer>> adjL, Map<Integer, Boolean> vis, Stack<Integer> st, int src) {
-          vis.put(src, true);
-          List<Integer> arr = adjL.get(src);
+    public boolean dfsTopo(List<List<Integer>> adj, int node, int[] vis) {
+        if(vis[node] == 1) // encountered a curr exploring node -> so there is a deadlock -> this node is not completed and also the parent node is also not completed because it has a dep. on this node.
+        
+            return false;
+        
+        if(vis[node] == 2) // encountered already vis node fully -> already the prereq are been completed : so move ahead
+            return true;
 
-          for (int i = 0; i < arr.size(); i++) {
-               int ele = arr.get(i);
-               if (!vis.get(ele)) {
-                    dfsTopo(adjL, vis, st, ele);
-               }
-          }
-          st.push(src);
-     }
+        vis[node] = 1; // the node is currently under exploring state and not yet fully completed.
 
-     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) {
-          int[] ans = new int[V];
+        for(Integer neigh : adj.get(node)) {
+            if(dfsTopo(adj, neigh, vis) == false)
+                return false;
+         
+        }
+        vis[node] = 2;
+        return true;        
+    }
 
-          int n = V;
-          int m = adj.size();
+    public void prepareAdjList(List<List<Integer>> adj, int[][] prerequisites, int n) {
+        for(int i=0; i<n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int[] prerequisite : prerequisites) {
+            int from = prerequisite[1];
+            int to = prerequisite[0];
+            adj.get(from).add(to);
+        }
+    }
 
-          // prep the adj list
-          Map<Integer, List<Integer>> adjL = new HashMap<>();
-
-          for (int i = 0; i < m; i++) {
-               ArrayList<Integer> arr = adj.get(i);
-               adjL.put(i, arr);
-          }
-
-          // vis ds
-          Map<Integer, Boolean> vis = new HashMap<>();
-          for (int i = 0; i < n; i++) {
-               vis.put(i, false);
-          }
-
-          // store then into a stack for completly vis nodes
-          Stack<Integer> st = new Stack<>();
-
-          for (int i = 0; i < n; i++) {
-               if (!vis.get(i))
-                    dfsTopo(adjL, vis, st, i);
-          }
-
-          // store in the res arr
-          int i = 0;
-          while (!st.empty()) {
-               int ele = st.peek();
-               st.pop();
-               ans[i++] = ele;
-          }
-
-          return ans;
-     }
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int m = prerequisites.length;
+        List<List<Integer>> adj = new ArrayList<>();
+        prepareAdjList(adj, prerequisites, numCourses);
+        int[] vis = new int[numCourses];
+       
+        for(int i=0; i<numCourses; i++) {
+            if(vis[i] == 0) {
+                if(dfsTopo(adj, i, vis) == false)
+                    return false;
+            }
+        }
+        return true;
+    }
 }
-
-/*
- * #include <bits/stdc++.h>
- * void prepareAdjList(unordered_map<int, list<int>> &adj, vector<pair<int,
- * int>> &edges, int m)
- * {
- * for (int i = 0; i < m; i++)
- * {
- * pair<int, int> p = edges[i];
- * int u = p.first;
- * int v = p.second;
- * adj[u].push_back(v);
- * }
- * }
- * 
- * void printList(unordered_map<int, list<int>> &adj, int n, int m)
- * {
- * for (auto i : adj)
- * {
- * cout << adj.begin()->first << "->";
- * for (auto j : adj.begin()->second)
- * {
- * cout << j << " , ";
- * }
- * cout << endl;
- * }
- * }
- * 
- * void dfsTopo(unordered_map<int, list<int>> &adj, unordered_map<int, bool>
- * &vis, stack<int> &dfsComplete, int src)
- * {
- * // recr call : no queue needed
- * vis[src] = true;
- * for (auto node : adj[src])
- * {
- * if (!vis[node])
- * {
- * dfsTopo(adj, vis, dfsComplete, node);
- * }
- * }
- * dfsComplete.push(src);
- * }
- * 
- * vector<int> topologicalSort(vector<pair<int, int>> &edges, int N, int M)
- * {
- * // topo sort only in : DIRECTED AND ACYCLIC GRAPH
- * // form all ds
- * // 1. adj list
- * unordered_map<int, list<int>> adj;
- * prepareAdjList(adj, edges, M);
- * printList(adj, N, M);
- * 
- * // 2. vis map
- * unordered_map<int, bool> vis;
- * for (int i = 0; i < N; i++)
- * {
- * vis[i] = false;
- * }
- * 
- * // 3. since dfs : create another ds : stack
- * stack<int> dfsComplete;
- * // ans -> traverse stack after dfs call
- * // for loop for disconn graph
- * vector<int> ans;
- * for (int i = 0; i < N; i++)
- * {
- * dfsTopo(adj, vis, dfsComplete, i);
- * }
- * 
- * // get the ordering
- * while (!dfsComplete.empty())
- * {
- * // cout << dfsComplete.top() << " , ";
- * ans.push_back(dfsComplete.top());
- * dfsComplete.pop();
- * }
- * return ans;
- * }
- */
