@@ -18,100 +18,44 @@ import java.util.Stack;
  * 
  */
 
+import java.util.Stack;
+
 class Solution {
-    private ArrayList<Integer> findLeft(int[] heights, int n) {
-        ArrayList<Integer> ans = new ArrayList<>();
-        Stack<Integer> st = new Stack<>();
-        st.push(0);
-        ans.add(-1);
-
-        // find the index of the smallest ele to its left
-        for (int i = 1; i < n; i++) {
-            int num = heights[i];
-            if (!st.empty()) {
-                if (num > heights[st.peek()]) {
-                    ans.add(st.peek());
-                    st.push(i);
-                } else {
-                    int flag = 0;
-                    while (!st.empty() && num <= heights[st.peek()]) {
-                        st.pop();
-                        if (!st.empty() && num > heights[st.peek()]) {
-                            ans.add(st.peek());
-                            st.push(i);
-                            flag = 1;
-                            break;
-                        }
-                    }
-                    if (flag == 0) {
-                        ans.add(-1);
-                        st.push(i);
-                    }
-                }
-            } else {
-                ans.add(-1);
-                st.push(i);
-            }
-        }
-        return ans;
-    }
-
-    private ArrayList<Integer> findRight(int[] heights, int n) {
-        ArrayList<Integer> ans = new ArrayList<>();
-        Stack<Integer> st = new Stack<>();
-        st.push(n - 1);
-        ans.add(n);
-
-        // find the index of the smallest ele to its right
-        for (int i = n - 2; i >= 0; i--) {
-            int num = heights[i];
-
-            if (!st.empty()) {
-                if (num > heights[st.peek()]) {
-                    ans.add(st.peek());
-                    st.push(i);
-                } else {
-                    int flag = 0;
-                    while (!st.empty() && num <= heights[st.peek()]) {
-                        st.pop();
-                        if (!st.empty() && num > heights[st.peek()]) {
-                            ans.add(st.peek());
-                            st.push(i);
-                            flag = 1;
-                            break;
-                        }
-                    }
-                    if (flag == 0) {
-                        ans.add(n);
-                        st.push(i);
-                    }
-                }
-            } else {
-                st.push(i);
-                ans.add(-1);
-            }
-        }
-        Collections.reverse(ans);
-        return ans;
-    }
-
     public int largestRectangleArea(int[] heights) {
         int n = heights.length;
-        ArrayList<Integer> left_Smallest = new ArrayList<>();
-        ArrayList<Integer> right_Smallest = new ArrayList<>();
-        int max_area = Integer.MIN_VALUE;
-
-        left_Smallest = findLeft(heights, n);
-        right_Smallest = findRight(heights, n);
-
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Stack<Integer> stack = new Stack<>();
+        
+        // Find nearest smaller element to the left
         for (int i = 0; i < n; i++) {
-            int curr_height = heights[i];
-            int left = left_Smallest.get(i);
-            int right = right_Smallest.get(i);
-
-            int area = (right - left - 1) * curr_height;
-            max_area = Math.max(max_area, area);
+            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+                stack.pop();
+            }
+            left[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
         }
-        return max_area;
+
+        // Clear the stack for finding nearest smaller element to the right
+        stack.clear();
+
+        // Find nearest smaller element to the right
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
+                stack.pop();
+            }
+            right[i] = stack.isEmpty() ? n : stack.peek();
+            stack.push(i);
+        }
+
+        // Calculate the maximum area
+        int maxArea = 0;
+        for (int i = 0; i < n; i++) {
+            int width = right[i] - left[i] - 1;
+            int area = width * heights[i];
+            maxArea = Math.max(maxArea, area);
+        }
+
+        return maxArea;
     }
 }
