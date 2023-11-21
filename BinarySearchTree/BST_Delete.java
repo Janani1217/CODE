@@ -1,70 +1,60 @@
-package BinarySearchTree;
-
-class Node {
-    int val;
-    Node left, rt;
-
-    Node(int key) {
-        val = key;
-        left = rt = null;
-    }
-}
-
-class BST_Delete {
-    Node root;
-
-    Node deleteNode(Node root, int key) {
-        if (root == null)
-            return null;
-
-        // when the actual root has to be deleted
-        if (root.val == key) {
-            return deleteHelper(root);
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    private int sucessor(TreeNode root) {
+        root = root.right;
+        while(root.left != null){
+            root = root.left;
         }
+        return root.val;
+    }
 
-        Node dummy = root;
+    private int predecessor(TreeNode root) {
+        root = root.left;
+        while(root.right != null){
+            root = root.right;
+        }
+        return root.val;
+    }
 
-        // middle nodes have to be deleted
-        while (root != null) {
-            if (root.val > key) {
-                // key will be on left part
-                if (root.left != null && root.left.val == key) {
-                    root.left = deleteHelper(root.left);
-                    break;
-                } else {
-                    root = root.left;
-                }
-            } else {
-                // key will be on right part
-                if (root.rt != null && root.rt.val == key) {
-                    root.rt = deleteHelper(root.rt);
-                    break;
-                } else {
-                    root = root.rt;
-                }
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root == null) return null;
+
+        if(key > root.val)
+            root.right = deleteNode(root.right, key);
+        else if(key < root.val)
+            root.left = deleteNode(root.left, key);
+        else{
+            // key == root
+            // u have to delete the current root
+
+            // 1. check if the root is a leaf node:
+            if(root!=null && root.left==null && root.right==null)
+                root = null;
+            
+            // 2. check if right exists and bring the lowest left child
+            if(root!=null && root.right != null) {
+                root.val = sucessor(root);
+                root.right = deleteNode(root.right, root.val); // since the val will be duplicated and has to be deleted 
+            } else if (root!=null && root.left != null) {
+                root.val = predecessor(root);
+                root.left = deleteNode(root.left, root.val); // del the copy of this which is present in left
             }
         }
 
-        return dummy;
-    }
-
-    Node deleteHelper(Node root) {
-        // if one of the child is not present return the other one
-        if (root.left == null)
-            return root.rt;
-        else if (root.rt == null)
-            return root.rt;
-
-        Node rightChild = root.rt;
-        Node lastRight = findLastRight(root.left);
-        lastRight.rt = rightChild;
-
-        return root.left;
-    }
-
-    Node findLastRight(Node root) {
-        if (root.rt == null)
-            return root;
-        return findLastRight(root.rt);
+        return root;
     }
 }
