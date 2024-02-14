@@ -42,111 +42,86 @@ the recr call has been made.
 
 */
 
-#include <iostream>
-#include <vector>
-using namespace std;
+import java.util.ArrayList;
+import java.util.List;
 
-class Node
-{
-public:
+class Node {
     int data;
-    Node *left;
-    Node *right;
+    Node left, right;
 
-    Node(int d)
-    {
+    public Node(int d) {
         data = d;
-        left = NULL;
-        right = NULL;
-    }
-};
-
-int height(Node *root)
-{
-    if (root == NULL)
-        return 0;
-
-    int left = height(root->left);
-    int right = height(root->right);
-    return 1 + max(left, right);
-}
-
-void printCurrentLevel(Node *root, int height)
-{
-    if (root == NULL)
-        return;
-
-    if (height == 1)
-        cout << root->data << " ";
-
-    else if (height > 1)
-    {
-        printCurrentLevel(root->left, height - 1);
-        printCurrentLevel(root->right, height - 1);
+        left = right = null;
     }
 }
 
-void printLevelOrderBinaryTree(Node *root)
-{
-    if (root == NULL)
-        return;
-    // to print level order , get the height of tree first
-    int h = height(root);
+public class BinaryTreePaths {
+    public static int height(Node root) {
+        if (root == null)
+            return 0;
 
-    // print for every height accordingly
-    for (int i = 1; i <= h; i++)
-    {
-        printCurrentLevel(root, i);
-        cout << endl;
-    }
-}
-
-void printAllPaths(Node *root, vector<string> &ans, string str)
-{
-    // base cases:
-    if (root == NULL)
-        return;
-
-    if (root->left == NULL && root->right == NULL)
-    {
-        str = str + to_string(root->data);
-        ans.push_back(str);
-        return;
+        int left = height(root.left);
+        int right = height(root.right);
+        return 1 + Math.max(left, right);
     }
 
-    string oldStr = str;
-    // remaining cases :
-    str = str + to_string(root->data);
-    str.push_back('-');
-    str.push_back('>');
+    public static void printCurrentLevel(Node root, int height) {
+        if (root == null)
+            return;
 
-    printAllPaths(root->left, ans, str);
-    printAllPaths(root->right, ans, str);
+        if (height == 1)
+            System.out.print(root.data + " ");
+        else if (height > 1) {
+            printCurrentLevel(root.left, height - 1);
+            printCurrentLevel(root.right, height - 1);
+        }
+    }
 
-    /*
-     backtrack : no need to use pop multiple times to remove prev , just
-     store the old str value and copy here.
-    */
+    public static void printLevelOrderBinaryTree(Node root) {
+        if (root == null)
+            return;
 
-    str = oldStr;
-}
+        int h = height(root);
 
-int main()
-{
-    Node *root = new Node(1);
+        for (int i = 1; i <= h; i++) {
+            printCurrentLevel(root, i);
+            System.out.println();
+        }
+    }
 
-    // create a binary tree
-    root->left = new Node(2);
-    root->right = new Node(3);
-    root->left->left = new Node(4);
+    public static void printAllPaths(Node root, List<String> ans, String str) {
+        if (root == null)
+            return;
 
-    // printLevelOrderBinaryTree(root);
-    vector<string> ans;
-    string str = "";
-    printAllPaths(root, ans, str);
+        if (root.left == null && root.right == null) {
+            str = str + root.data;
+            ans.add(str);
+            return;
+        }
 
-    for (int i = 0; i < ans.size(); i++)
-    {
-        cout << ans[i] << endl;
+        String oldStr = str;
+        str = str + root.data + "->";
+
+        printAllPaths(root.left, ans, str);
+        printAllPaths(root.right, ans, str);
+
+        str = oldStr;
+    }
+
+    public static void main(String[] args) {
+        Node root = new Node(1);
+
+        root.left = new Node(2);
+        root.right = new Node(3);
+        root.left.left = new Node(4);
+
+        // printLevelOrderBinaryTree(root);
+        List<String> ans = new ArrayList<>();
+        String str = "";
+        printAllPaths(root, ans, str);
+
+        for (String path : ans) {
+            System.out.println(path);
+        }
     }
 }
